@@ -6,6 +6,14 @@ collect deduped, scored leads in a lightweight **CRM**, group them into **campai
 **Stack:** Vite + React 18 + TypeScript · Tailwind CSS (dark-first design tokens, light toggle) · Framer Motion ·
 TanStack Query · **Lovable Cloud** (Supabase Postgres, Auth, Realtime, Vault, Edge Functions).
 
+![Dashboard](docs/screenshots/app-dash.png)
+
+| Leads CRM | Lead drawer |
+|---|---|
+| ![Leads](docs/screenshots/app-leads.png) | ![Lead drawer](docs/screenshots/app-drawer.png) |
+
+_More in [`docs/screenshots`](docs/screenshots). In-app screens show sample data._
+
 ```bash
 npm install
 cp .env.example .env   # only needed outside Lovable; Lovable Cloud injects these
