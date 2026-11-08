@@ -2,88 +2,108 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------- Design tokens (HSL triplets) ---------- */
+/* =====================================================================
+   LeadForge design tokens
+   Dark (default): bg #0B1220 · surface #101A2E · border #1E2A44
+                   text #EAF0FF · muted #9AA7C0
+   Accents (subtle): cyan #38BDF8 · violet #8B5CF6
+   ===================================================================== */
 @layer base {
   :root {
-    --background: 220 25% 97%;
-    --foreground: 228 30% 10%;
-    --surface: 0 0% 100%;
-    --surface-2: 220 25% 95%;
-    --border: 225 20% 88%;
-    --muted: 220 20% 93%;
-    --muted-foreground: 225 12% 42%;
-    --primary: 252 85% 60%;
-    --primary-foreground: 0 0% 100%;
-    --accent: 189 85% 40%;
-    --success: 152 60% 36%;
-    --warning: 36 92% 44%;
-    --danger: 354 72% 50%;
-    --info: 212 85% 50%;
-    --ring: 252 85% 60%;
-    --glass: 0 0% 100% / 0.7;
-    --grid: 228 30% 10% / 0.05;
+    /* Light theme (optional toggle) */
+    --bg: 246 248 252;
+    --surface: 255 255 255;
+    --surface-2: 240 244 250;
+    --border: 222 229 240;
+    --text: 11 18 32;
+    --muted: 84 98 124;
+    --cyan: 2 132 199;
+    --violet: 124 58 237;
+    --on-accent: 255 255 255;
+    --success: 22 163 74;
+    --warning: 202 138 4;
+    --danger: 220 38 38;
+    --info: 37 99 235;
+    --glass: 255 255 255;
+    --glass-alpha: 0.72;
+    --grid: 11 18 32;
   }
   .dark {
-    --background: 230 28% 5%;
-    --foreground: 225 30% 96%;
-    --surface: 230 24% 9%;
-    --surface-2: 230 22% 12%;
-    --border: 230 18% 18%;
-    --muted: 230 20% 14%;
-    --muted-foreground: 226 14% 62%;
-    --primary: 252 95% 70%;
-    --primary-foreground: 230 30% 6%;
-    --accent: 189 90% 55%;
-    --success: 152 60% 52%;
-    --warning: 38 92% 60%;
-    --danger: 354 85% 66%;
-    --info: 212 92% 66%;
-    --ring: 252 95% 70%;
-    --glass: 230 24% 10% / 0.55;
-    --grid: 225 30% 96% / 0.04;
+    --bg: 11 18 32;          /* #0B1220 */
+    --surface: 16 26 46;     /* #101A2E */
+    --surface-2: 21 33 57;
+    --border: 30 42 68;      /* #1E2A44 */
+    --text: 234 240 255;     /* #EAF0FF */
+    --muted: 154 167 192;    /* #9AA7C0 */
+    --cyan: 56 189 248;      /* #38BDF8 */
+    --violet: 139 92 246;    /* #8B5CF6 */
+    --on-accent: 6 16 30;
+    --success: 52 211 153;
+    --warning: 251 191 36;
+    --danger: 248 113 113;
+    --info: 96 165 250;
+    --glass: 16 26 46;
+    --glass-alpha: 0.62;
+    --grid: 234 240 255;
   }
 
   * { @apply border-border; }
-  html { -webkit-font-smoothing: antialiased; }
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-feature-settings: "cv11", "ss01";
-  }
-  ::selection { background: hsl(var(--primary) / 0.3); }
-  :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body { @apply bg-bg text-text font-sans; font-feature-settings: "cv11", "ss01"; }
+  ::selection { background: rgb(var(--cyan) / 0.28); }
+  :focus-visible { outline: none; box-shadow: 0 0 0 2px rgb(var(--bg)), 0 0 0 4px rgb(var(--cyan) / 0.7); border-radius: 10px; }
   input, textarea, select { color-scheme: light; }
   .dark input, .dark textarea, .dark select { color-scheme: dark; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--border)); border-radius: 999px; border: 2px solid rgb(var(--bg)); }
 }
 
 @layer components {
+  /* Surfaces */
+  .card { @apply rounded-2xl border border-border bg-surface shadow-soft; }
   .glass {
-    background: hsl(var(--glass));
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    @apply border border-border/70 shadow-card;
+    @apply rounded-2xl border border-border/80 shadow-premium;
+    background: rgb(var(--glass) / var(--glass-alpha));
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
   }
+  /* Clickable card: 200ms lift + glow */
+  .card-hover {
+    @apply transition-[transform,box-shadow,border-color] duration-200 ease-premium hover:-translate-y-1 hover:border-cyan/30 hover:shadow-glow;
+  }
+
+  /* Backgrounds */
   .bg-grid {
     background-image:
-      linear-gradient(hsl(var(--grid)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--grid)) 1px, transparent 1px);
-    background-size: 44px 44px;
+      linear-gradient(rgb(var(--grid) / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--grid) / 0.045) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
-  .glow-orb {
-    @apply pointer-events-none absolute rounded-full blur-3xl;
-    background: radial-gradient(circle, hsl(var(--primary) / 0.35), transparent 65%);
+  .aurora {
+    @apply pointer-events-none absolute rounded-full blur-3xl animate-aurora;
+    background: radial-gradient(closest-side, rgb(var(--cyan) / 0.22), transparent);
   }
+  .aurora-violet { background: radial-gradient(closest-side, rgb(var(--violet) / 0.2), transparent); }
+
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(110deg, hsl(var(--foreground)) 20%, hsl(var(--primary)) 55%, hsl(var(--accent)) 90%);
+    background-image: linear-gradient(100deg, rgb(var(--text)) 10%, rgb(var(--cyan)) 55%, rgb(var(--violet)) 95%);
   }
+  .accent-line { background: linear-gradient(90deg, transparent, rgb(var(--cyan) / 0.6), rgb(var(--violet) / 0.5), transparent); }
+
+  /* Form controls */
   .field {
-    @apply h-10 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted-foreground/70
-           transition-[border-color,box-shadow] duration-150 focus:border-primary/60 focus:outline-none focus:ring-4 focus:ring-primary/15;
+    @apply h-10 w-full rounded-xl border border-border bg-bg/60 px-3.5 text-sm text-text placeholder:text-muted/60
+           transition-[border-color,box-shadow,background-color] duration-200
+           hover:border-muted/40 focus:border-cyan/60 focus:bg-bg focus:shadow-focus focus:outline-none
+           disabled:cursor-not-allowed disabled:opacity-60;
   }
-  .label { @apply mb-1.5 block text-xs font-medium text-muted-foreground; }
-  .kbd { @apply rounded border border-border bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground; }
+  .field[aria-invalid="true"] { @apply border-danger/70 focus:border-danger focus:shadow-[0_0_0_4px_rgb(var(--danger)/0.18)]; }
+  .label { @apply mb-1.5 block text-xs font-medium text-muted; }
+  .kbd { @apply rounded-md border border-border bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-muted; }
+  .eyebrow { @apply text-xs font-medium uppercase tracking-[0.14em] text-muted; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
