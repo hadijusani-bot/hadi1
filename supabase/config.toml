@@ -1,0 +1,16 @@
+# Lovable Cloud / Supabase project config.
+# project_id is filled in automatically by Lovable Cloud when the project is connected.
+project_id = "leadforge"
+
+[functions.firecrawl-pipeline]
+verify_jwt = true
+
+[functions.apify-pipeline]
+verify_jwt = true
+
+[functions.admin-api-keys]
+verify_jwt = true
+
+# Called by Apify's servers — authenticated by a per-run secret token instead of a JWT.
+[functions.apify-webhook]
+verify_jwt = false

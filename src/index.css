@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens (HSL triplets) ---------- */
+@layer base {
+  :root {
+    --background: 220 25% 97%;
+    --foreground: 228 30% 10%;
+    --surface: 0 0% 100%;
+    --surface-2: 220 25% 95%;
+    --border: 225 20% 88%;
+    --muted: 220 20% 93%;
+    --muted-foreground: 225 12% 42%;
+    --primary: 252 85% 60%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 189 85% 40%;
+    --success: 152 60% 36%;
+    --warning: 36 92% 44%;
+    --danger: 354 72% 50%;
+    --info: 212 85% 50%;
+    --ring: 252 85% 60%;
+    --glass: 0 0% 100% / 0.7;
+    --grid: 228 30% 10% / 0.05;
+  }
+  .dark {
+    --background: 230 28% 5%;
+    --foreground: 225 30% 96%;
+    --surface: 230 24% 9%;
+    --surface-2: 230 22% 12%;
+    --border: 230 18% 18%;
+    --muted: 230 20% 14%;
+    --muted-foreground: 226 14% 62%;
+    --primary: 252 95% 70%;
+    --primary-foreground: 230 30% 6%;
+    --accent: 189 90% 55%;
+    --success: 152 60% 52%;
+    --warning: 38 92% 60%;
+    --danger: 354 85% 66%;
+    --info: 212 92% 66%;
+    --ring: 252 95% 70%;
+    --glass: 230 24% 10% / 0.55;
+    --grid: 225 30% 96% / 0.04;
+  }
+
+  * { @apply border-border; }
+  html { -webkit-font-smoothing: antialiased; }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "cv11", "ss01";
+  }
+  ::selection { background: hsl(var(--primary) / 0.3); }
+  :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  input, textarea, select { color-scheme: light; }
+  .dark input, .dark textarea, .dark select { color-scheme: dark; }
+}
+
+@layer components {
+  .glass {
+    background: hsl(var(--glass));
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    @apply border border-border/70 shadow-card;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(var(--grid)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid)) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  .glow-orb {
+    @apply pointer-events-none absolute rounded-full blur-3xl;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.35), transparent 65%);
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(110deg, hsl(var(--foreground)) 20%, hsl(var(--primary)) 55%, hsl(var(--accent)) 90%);
+  }
+  .field {
+    @apply h-10 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted-foreground/70
+           transition-[border-color,box-shadow] duration-150 focus:border-primary/60 focus:outline-none focus:ring-4 focus:ring-primary/15;
+  }
+  .label { @apply mb-1.5 block text-xs font-medium text-muted-foreground; }
+  .kbd { @apply rounded border border-border bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
