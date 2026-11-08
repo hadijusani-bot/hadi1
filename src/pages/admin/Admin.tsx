@@ -71,7 +71,7 @@ function UsersTab() {
   const rows = (data ?? []).filter((u) => !q || `${u.full_name} ${u.email}`.toLowerCase().includes(q.toLowerCase()));
   return (
     <Card className="overflow-hidden">
-      <CardHeader><CardTitle>{data?.length ?? "…"} users</CardTitle><Input className="h-8 max-w-xs text-xs" placeholder="Search users…" value={q} onChange={(e) => setQ(e.target.value)} /></CardHeader>
+      <CardHeader><CardTitle>{data ? `${data.length} user${data.length === 1 ? "" : "s"}` : "…"}</CardTitle><Input className="h-8 max-w-xs text-xs" placeholder="Search users…" value={q} onChange={(e) => setQ(e.target.value)} /></CardHeader>
       {isLoading ? <TableSkeleton rows={4} cols={4} /> : (
         <div className="divide-y divide-border/50">
           {rows.map((u) => (
